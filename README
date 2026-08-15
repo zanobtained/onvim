@@ -1,0 +1,17 @@
+  This is basically Neovim configured from scratch without needing any external
+plugin. Everything utilities is written directly in Lua. However, there are some
+dependencies optionally to enable file searching which is ripgrep, and the
+required Neovim version is at least 0.11. This configurations features are can
+be seen in lua/module directory, each file represent a utility, and is loaded
+at startup (see init.lua). The lua/core directory is just my opinionated options
+which can be changed however you like it. The lsp folder is for configuring lsp
+which is posibble since version 0.11, and there are already two lsp configured.
+and lastly the colors folder is just the default color theme that I make my own
+specially for this config.
+
+  To use this config, just clone this repository into your desired config
+directory by the name nvim, in Linux system this is usually ~/.config/nvim, in
+Windows this is usually %LOCALAPPDATA%/nvim, I don't know much about MacOS.
+After that, you can just rerun you Neovim and it should be just fine, there's no
+installing anything after it, what you see here is all it needs except for the
+optional ripgrep I mentioned.
