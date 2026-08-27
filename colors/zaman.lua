@@ -49,7 +49,6 @@ vim.api.nvim_set_hl(0, "FloatTitle",  { fg = palette.fg1, bg = palette.bg0,
 vim.api.nvim_set_hl(0, "NormalNC",    { fg = palette.fg0, bg = palette.bg0 })
 vim.api.nvim_set_hl(0, "EndOfBuffer", { fg = palette.bg3, bg = palette.bg0 })
 
-vim.api.nvim_set_hl(0, "Cursor",       { fg = palette.bg0, bg = palette.fg0 })
 vim.api.nvim_set_hl(0, "CursorLine",   { bg = palette.bg3 })
 vim.api.nvim_set_hl(0, "CursorColumn", { bg = palette.bg3 })
 vim.api.nvim_set_hl(0, "ColorColumn",  { bg = palette.bg2 })
@@ -60,8 +59,9 @@ vim.api.nvim_set_hl(0, "SignColumn",   { fg = palette.fg2, bg = palette.bg1 })
 vim.api.nvim_set_hl(0, "Visual",    { bg = palette.bg7 })
 vim.api.nvim_set_hl(0, "VisualNOS", { bg = palette.bg7 })
 
-vim.api.nvim_set_hl(0, "Search",     { fg = palette.fg0, bg = palette.bg8 })
-vim.api.nvim_set_hl(0, "IncSearch",  { fg = palette.fg0, bg = palette.bg8 })
+vim.api.nvim_set_hl(0, "Search",     { bg = palette.bg8 })
+vim.api.nvim_set_hl(0, "IncSearch",  { bg = palette.bg8 })
+vim.api.nvim_set_hl(0, "CurSearch",  { fg = palette.fg0, bg = palette.bg8 })
 vim.api.nvim_set_hl(0, "Substitute", { fg = palette.fg0, bg = palette.bg9 })
 
 vim.api.nvim_set_hl(0, "ModeMsg",    { fg = palette.green, bold = true })

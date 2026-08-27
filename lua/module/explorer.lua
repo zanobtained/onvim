@@ -54,6 +54,8 @@ local config = {
 local function open_floating_window()
   local buffer = nil
 
+  state.workspace_directory = vim.fn.getcwd()
+
   if vim.api.nvim_buf_is_valid(state.buffer) then
     buffer = state.buffer
   else
@@ -170,16 +172,16 @@ local function scan_directory(path, depth)
   local handle = vim.uv.fs_scandir(path)
 
   if not handle then return items end
-  
+
   local folders = {}
   local files = {}
-  
+
   while true do
     local name, type = vim.uv.fs_scandir_next(handle)
     if not name then break end
-    
+
     local item_path = path .. system.get_separator() .. name
-    
+
     if type == "directory" then
       table.insert(folders, {
         name = name,
@@ -196,36 +198,36 @@ local function scan_directory(path, depth)
       })
     end
   end
-  
+
   table.sort(folders, function(a, b) return a.name < b.name end)
   table.sort(files, function(a, b) return a.name < b.name end)
-  
+
   for _, folder in ipairs(folders) do
     table.insert(items, folder)
   end
-  
+
   for _, file in ipairs(files) do
     table.insert(items, file)
   end
-  
+
   return items
 end
 
 local function build_tree_structure()
   state.tree_nodes = {}
-  
+
   local function add_tree_items(path, depth)
     local items = scan_directory(path, depth)
-    
+
     for _, item in ipairs(items) do
       table.insert(state.tree_nodes, item)
-      
+
       if item.type == "folder" and state.expanded_dirs[item.path] then
         add_tree_items(item.path, depth + 1)
       end
     end
   end
-  
+
   add_tree_items(state.current_directory, 0)
 end
 
@@ -247,7 +249,7 @@ local function render_tree()
     local indent = string.rep(" ", item.depth * config.tree_indent)
     local icon = get_item_icon(item)
     local line = ""
-    
+
     if item.type == "folder" then
       local expand_icon = state.expanded_dirs[item.path] and
                           config.icon_tree_expanded or
@@ -260,7 +262,7 @@ local function render_tree()
       line = string.format("%s %s %s %s", config.icon_bullet,
                            indent, icon, item.name)
     end
-    
+
     table.insert(lines, line)
   end
 
@@ -306,10 +308,10 @@ end
 local function render()
   if state.tree_mode then
     build_tree_structure()
-    
+
     if #state.tree_nodes == 0 then
       state.tree_mode = false
-      render_list() 
+      render_list()
 
       vim.notify("Folder is empty, can't switch to tree mode",
                  vim.log.levels.INFO)
@@ -411,7 +413,7 @@ local function get_current_item()
   if line_index <= state.header_row_height then
     return nil
   end
-  
+
   if state.tree_mode then
     if item_index > #state.tree_nodes then
       return nil
@@ -456,7 +458,7 @@ end
 
 local function handle_toggle_tree_mode()
   state.tree_mode = not state.tree_mode
-  
+
   render()
 
   vim.api.nvim_win_set_cursor(state.window, { state.header_row_height + 1, 0 })
@@ -769,7 +771,7 @@ local function handle_go_previous_directory()
     vim.notify("Use list mode to navigate directories", vim.log.levels.INFO)
     return
   end
-  
+
   if system.is_root(state.current_directory) then
     vim.notify("Already at root", vim.log.levels.INFO)
   end
@@ -817,7 +819,7 @@ local function attach_keymaps()
 
   vim.keymap.set("n", config.keymap_go_previous_dir,
                  handle_go_previous_directory, opts)
-  
+
   vim.keymap.set("n", config.keymap_toggle_tree, handle_toggle_tree_mode, opts)
 
   vim.keymap.set("n", config.keymap_go_workspace_dir, function()

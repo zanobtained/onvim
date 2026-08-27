@@ -20,7 +20,8 @@ vim.opt.virtualedit   = "block"
 vim.opt.winborder     = "single"
 vim.opt.wrap          = false
 vim.opt.writebackup   = false
+vim.opt.termguicolors = true
 
-if vim.version().prerelease then
+if vim.version().minor >= 12 then
   vim.opt.pumborder = "single"
 end
